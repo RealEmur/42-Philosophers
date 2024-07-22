@@ -6,7 +6,7 @@
 /*   By: emyildir <emyildir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:51:08 by emyildir          #+#    #+#             */
-/*   Updated: 2024/07/18 13:17:27 by emyildir         ###   ########.fr       */
+/*   Updated: 2024/07/21 23:59:45 by emyildir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ int		main(int size, char **args)
 	table.philos_count = ft_atoi(args[1]);
 	table.die_time = ft_atoi(args[2]);
 	table.eat_time = ft_atoi(args[3]);
-	table.sleep_time = ft_atoi(args[4]);
+	init_philosophers(&table);
 	return (0);
 }

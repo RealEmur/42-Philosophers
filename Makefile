@@ -1,6 +1,6 @@
 NAME = philo
 
-SOURCES = philosophers.c utils/functions.c
+SOURCES = philosophers.c utils/functions.c helpers/philosophers.c
 HEADER = philosophers.h
 
 CC = cc 

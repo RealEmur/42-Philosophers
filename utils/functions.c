@@ -6,9 +6,18 @@
 /*   By: emyildir <emyildir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:11:09 by emyildir          #+#    #+#             */
-/*   Updated: 2024/07/20 02:35:39 by emyildir         ###   ########.fr       */
+/*   Updated: 2024/07/22 00:53:31 by emyildir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../philosophers.h"
+
+size_t	compare_time_vals(t_timeval t1, t_timeval t2)
+{
+	if (t1.tv_sec != t2.tv_sec)
+		return (t1.tv_sec - t2.tv_sec);
+	return (t1.tv_usec - t2.tv_usec);
+}
 
 int	ft_atoi(const char *str)
 {
