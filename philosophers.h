@@ -6,7 +6,7 @@
 /*   By: emyildir <emyildir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:51:26 by emyildir          #+#    #+#             */
-/*   Updated: 2024/07/22 00:00:25 by emyildir         ###   ########.fr       */
+/*   Updated: 2024/07/24 02:23:03 by emyildir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,9 @@ typedef struct s_table	t_table;
 typedef struct s_philosopher
 {	
 	int				index;
-	int				has_fork;
 	int				state;
 	t_timeval		last_eaten;
-	pthread_mutex_t	*mutex;
+	pthread_mutex_t	fork;
 	pthread_t		thread;
 	t_table			*table;
 } t_philosopher;
@@ -53,6 +52,6 @@ typedef struct s_table
 
 int		ft_atoi(const char *str);
 int		init_philosophers(t_table *table);
-size_t	compare_time_vals(t_timeval t1, t_timeval t2);
+int		compare_time_vals(t_timeval t1, t_timeval t2);
 
 #endif
