@@ -5,23 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emyildir <emyildir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/18 11:51:08 by emyildir          #+#    #+#             */
-/*   Updated: 2024/07/24 17:52:03 by emyildir         ###   ########.fr       */
+/*   Created: 2024/07/24 10:26:54 by emyildir          #+#    #+#             */
+/*   Updated: 2024/07/24 11:13:31 by emyildir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./philosophers.h"
+#include "../philosophers.h"
 
-int		main(int size, char **args)
+void	print_action(int index, int action)
 {
-	t_table		table;
-	
-	if (size != 4 && size != 5)
-		return (printf(MSG_USAGE), 0);
-	table.philos_count = ft_atoi(args[1]);
-	table.die_time = ft_atoi(args[2]);
-	table.eat_time = ft_atoi(args[3]);
-	init_philosophers(&table);
-	return (0);
-}
+	char	*const actions[] = \
+	{"is sleeping", "is eating", "is thinking", "has taken a fork", "died"};
+	unsigned long long	timestamp;
 
+	timestamp = get_timestamp();
+	if (!timestamp)
+		handle_error(MSG_GTOD_ERR);
+	printf("%lld %d %s.\n", timestamp, index, actions[action]);
+}

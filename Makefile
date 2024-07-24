@@ -1,11 +1,12 @@
 NAME = philo
 
-SOURCES = philosophers.c utils/functions.c helpers/philosophers.c
+SOURCES = philosophers.c utils/functions.c helpers/philosophers.c utils/philosophers.c
 HEADER = philosophers.h
 
 CC = cc 
-CFLAGS = 
-
+CFLAGS = -pthread  $(DATARACE)
+DATARACE = -fsanitize=thread
+ 
 all: $(NAME)
 
 $(NAME): $(SOURCES) $(HEADER)
