@@ -4,7 +4,7 @@ SOURCES = philosophers.c utils/functions.c helpers/philosophers.c utils/philosop
 HEADER = philosophers.h
 
 CC = cc 
-CFLAGS = -pthread  $(DATARACE)
+CFLAGS = -pthread 
 DATARACE = -fsanitize=thread
  
 all: $(NAME)

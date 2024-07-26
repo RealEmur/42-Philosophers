@@ -6,7 +6,7 @@
 /*   By: emyildir <emyildir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:51:26 by emyildir          #+#    #+#             */
-/*   Updated: 2024/07/24 17:20:11 by emyildir         ###   ########.fr       */
+/*   Updated: 2024/07/26 21:21:08 by emyildir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 # define MSG_USAGE "Usage: ./philo number_of_philosophers time_to_die time_to_eat time_to_sleep\n"
-# define MSG_GTOD_ERR "Error: Retrieving time from func gettimeofday()."
-
-# define STATE_EATING 0
-# define STATE_THINKING 1
-# define STATE_SLEEPING 2
+# define MSG_TABLE_MUTEX "Couldn't initiliaze mutexes for struct table.\n"
+# define MSG_MALLOC_ERR "Couldn't allocate memory with func malloc\n"
+# define MSG_PHILO_INIT_ERR "Couldn't initialize Philosophers.\n"
+# define MSG_GTOD_ERR "Error: Retrieving time from func gettimeofday().\n"
 
 # define ACTION_SLEEP 0
 # define ACTION_EAT 1
@@ -41,11 +39,10 @@ typedef unsigned long long t_timestamp;
 typedef struct s_philosopher
 {	
 	int					index;
-	int					state;
 	t_timestamp			last_eaten;
-	pthread_mutex_t		dead_mutex;
-	pthread_mutex_t		fork;
 	pthread_t			thread;
+	pthread_mutex_t		fork;
+	pthread_mutex_t		last_eaten_mutex;
 	t_table				*table;
 } t_philosopher;
 
@@ -55,19 +52,20 @@ typedef struct s_table
 	int				die_time;	
 	int				sleep_time;
 	int				eat_time;
-	int				philo_dead;
-	t_timestamp		sim_start;
+	int				anyone_dead;
 	t_philosopher	*philos;
+	pthread_mutex_t	anyone_dead_mutex;
 } t_table;
 
 
-int		ft_atoi(const char *str);
-void	ft_wait(int	ms);
+int			ft_atoi(const char *str);
+int			init_philosophers(t_table *table);
+int			compare_time_vals(t_timeval t1, t_timeval t2);
+void		ft_wait(int	ms);
+void		print_action(int index, int action);
+void		handle_error(char *msg);
+void		print_action(int index, int action);
+void		*philos_schedule(void *ptr);
 t_timestamp	get_timestamp();
-int		init_philosophers(t_table *table);
-int		compare_time_vals(t_timeval t1, t_timeval t2);
-void	print_action(int index, int action);
-void	handle_error(char *msg);
-void	print_action(int index, int action);
 
 #endif
