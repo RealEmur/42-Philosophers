@@ -3,9 +3,10 @@ NAME = philo
 SOURCES = philosophers.c utils/functions.c helpers/philosophers.c utils/philosophers.c
 HEADER = philosophers.h
 
-CC = cc 
-CFLAGS = -pthread 
 DATARACE = -fsanitize=thread
+
+CC = cc 
+CFLAGS = -pthread
  
 all: $(NAME)
 

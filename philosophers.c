@@ -6,7 +6,7 @@
 /*   By: emyildir <emyildir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:51:08 by emyildir          #+#    #+#             */
-/*   Updated: 2024/07/26 21:35:48 by emyildir         ###   ########.fr       */
+/*   Updated: 2024/07/28 21:17:41 by emyildir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,15 @@ int		main(int size, char **args)
 	table->die_time = ft_atoi(args[2]);
 	table->eat_time = ft_atoi(args[3]);
 	table->anyone_dead = 0;
-	printf("%d\n", pthread_mutex_init(&(table->anyone_dead_mutex)));
-	if(!pthread_mutex_init(&(table->anyone_dead_mutex), NULL))
+	table->status = STATUS_PREPARING;
+	if(pthread_mutex_init(&(table->anyone_dead_mutex), NULL))
 		return (printf(MSG_TABLE_MUTEX), 1);
-	return (init_philosophers(table));
+	if (!init_philosophers(table))
+		return (printf(MSG_PHILO_INIT_ERR), 1);
+	pthread_mutex_lock(&table->status_mutex);
+	table->status = STATUS_STARTED;
+	pthread_mutex_unlock(&table->status_mutex);
+	dead_checker(table);
+	return (0);
 }
 

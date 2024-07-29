@@ -6,7 +6,7 @@
 /*   By: emyildir <emyildir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:51:26 by emyildir          #+#    #+#             */
-/*   Updated: 2024/07/26 21:21:08 by emyildir         ###   ########.fr       */
+/*   Updated: 2024/07/28 21:12:19 by emyildir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@
 # define ACTION_FORK 3
 # define ACTION_DIE 4
 
+# define STATUS_PREPARING 1
+# define STATUS_STARTED 2
+
 typedef struct timeval t_timeval;
 typedef struct s_table	t_table;
 typedef unsigned long long t_timestamp;
@@ -39,10 +42,10 @@ typedef unsigned long long t_timestamp;
 typedef struct s_philosopher
 {	
 	int					index;
-	t_timestamp			last_eaten;
+	t_timestamp			die_at;
 	pthread_t			thread;
 	pthread_mutex_t		fork;
-	pthread_mutex_t		last_eaten_mutex;
+	pthread_mutex_t		die_at_mutex;
 	t_table				*table;
 } t_philosopher;
 
@@ -53,19 +56,19 @@ typedef struct s_table
 	int				sleep_time;
 	int				eat_time;
 	int				anyone_dead;
+	int				status;
 	t_philosopher	*philos;
 	pthread_mutex_t	anyone_dead_mutex;
+	pthread_mutex_t status_mutex;
 } t_table;
 
 
 int			ft_atoi(const char *str);
 int			init_philosophers(t_table *table);
-int			compare_time_vals(t_timeval t1, t_timeval t2);
 void		ft_wait(int	ms);
 void		print_action(int index, int action);
-void		handle_error(char *msg);
-void		print_action(int index, int action);
 void		*philos_schedule(void *ptr);
+void		dead_checker(t_table *table);
 t_timestamp	get_timestamp();
 
 #endif
