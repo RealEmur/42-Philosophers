@@ -6,21 +6,29 @@
 /*   By: emyildir <emyildir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 10:26:54 by emyildir          #+#    #+#             */
-/*   Updated: 2024/07/28 20:53:32 by emyildir         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:38:21 by emyildir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
 
-void	print_action(int index, int action)
+void	print_action(t_table *table, int index, int action)
 {
 	char	*const actions[] = \
 	{"is sleeping", "is eating", "is thinking", "has taken a fork", "died"};
 	unsigned long long	timestamp;
 
+	pthread_mutex_lock(&table->anyone_dead_mutex);
+	if (table->anyone_dead)
+	{
+		pthread_mutex_unlock(&table->anyone_dead_mutex);
+		return ;
+	}
+	pthread_mutex_unlock(&table->anyone_dead_mutex);
 	timestamp = get_timestamp();
-	printf("%lld Philosopher %d %s.\n", timestamp, index, actions[action]);
+	printf("%lld %d %s.\n", timestamp - table->sim_started_at, index + 1, actions[action]);
 }
+
 
 void	destroy_philo(t_philosopher *philo)
 {
@@ -44,11 +52,10 @@ int	init_philo(t_table *table, t_philosopher *philo, int index)
 	
 	if (pthread_mutex_init(&philo->fork, NULL) 
 	|| pthread_mutex_init(&philo->die_at_mutex, NULL)
-	|| pthread_create(&philo->thread, NULL, philos_schedule, philo))
-	{
-		printf("%d HATA\n", index);
+	|| pthread_create(&philo->thread, NULL, philos_schedule, philo)
+	|| pthread_detach(philo->thread)
+	)
 		return (destroy_philo(philo), 0);
-	}
 	return (1);
 }
 
@@ -63,12 +70,11 @@ int	init_philosophers(t_table *table)
 		return (printf(MSG_MALLOC_ERR), 1);
 	memset(philosophers, 0, table->philos_count * sizeof(t_philosopher));
 	table->philos = philosophers;
-	
 	i = 0;
 	while (i < table->philos_count)
-	{
+ 	{
 		if (!init_philo(table, philosophers + i, i))
-			return (destroy_philos(philosophers, i + 1), 1);		
+			return (destroy_philos(philosophers, i + 1), 1);	
 		i++;
 	}
 	return (1);	

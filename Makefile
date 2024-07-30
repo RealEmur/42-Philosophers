@@ -1,6 +1,6 @@
 NAME = philo
 
-SOURCES = philosophers.c utils/functions.c helpers/philosophers.c utils/philosophers.c
+SOURCES = philosophers.c utils/functions.c helpers/philosophers.c helpers/checker.c utils/philosophers.c 
 HEADER = philosophers.h
 
 DATARACE = -fsanitize=thread

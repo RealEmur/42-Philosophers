@@ -6,7 +6,7 @@
 /*   By: emyildir <emyildir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:11:09 by emyildir          #+#    #+#             */
-/*   Updated: 2024/07/28 20:11:16 by emyildir         ###   ########.fr       */
+/*   Updated: 2024/07/30 11:34:08 by emyildir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,17 @@ void	ft_wait(int	ms)
 	
 	while (target_ms > get_timestamp())
 		usleep(200);
+}
+
+int	is_all_num(char *str)
+{
+	while (str && *str)
+	{
+		if (!(*str >= '0' && *str <= '9'))
+			return (0);
+		str++;
+	}
+	return (1);
 }
 
 int	ft_atoi(const char *str)
