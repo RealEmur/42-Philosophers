@@ -6,7 +6,7 @@
 /*   By: emyildir <emyildir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:09:01 by emyildir          #+#    #+#             */
-/*   Updated: 2024/07/30 17:36:05 by emyildir         ###   ########.fr       */
+/*   Updated: 2024/08/02 20:31:37 by emyildir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	eat(t_table *table, int p_index)
 	t_philosopher *const next_philo = \
 	philos + get_next_index(table->philos_count, p_index);
 
-	if (p_index % 2)
+	if (p_index % 2 && philo->index != next_philo->index)
 		take_fork(table, &next_philo->fork, p_index);
 	take_fork(table, &philo->fork, p_index);
 	if (p_index % 2 == 0)
@@ -54,12 +54,10 @@ void	*philos_schedule(void *ptr)
 	t_philosopher	*const	philo = ptr;
 	t_table			*const	table = philo->table;
 	
-	while (1)
+	while ((int) fetch_data(&table->status_mutex,  &table->status) == STATUS_PREPARING)
+		;
+	while ((int) fetch_data(&table->status_mutex,  &table->status) != STATUS_ENDED)
 	{
-		pthread_mutex_lock(&table->anyone_dead_mutex);
-		if (table->anyone_dead)
-			pthread_mutex_unlock(&table->anyone_dead_mutex);
-		pthread_mutex_unlock(&table->anyone_dead_mutex);
 		eat(table, philo->index);
 		print_action(table, philo->index, ACTION_SLEEP);
 		ft_wait(table->sleep_time);

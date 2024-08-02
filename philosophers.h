@@ -6,7 +6,7 @@
 /*   By: emyildir <emyildir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:51:26 by emyildir          #+#    #+#             */
-/*   Updated: 2024/07/30 14:18:45 by emyildir         ###   ########.fr       */
+/*   Updated: 2024/08/02 20:14:10 by emyildir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef enum e_actions
 # define ACTION_FORK 3
 # define ACTION_DIE 4
 
+# define STATUS_ENDED 0
 # define STATUS_PREPARING 1
 # define STATUS_STARTED 2
 
@@ -68,20 +69,26 @@ typedef struct s_table
 	int				sleep_time;
 	int				eat_time;
 	int				must_eat;
-	int				anyone_dead;
+	int				status;
 	t_timestamp		sim_started_at;
 	t_philosopher	*philos;
-	pthread_mutex_t	anyone_dead_mutex;
+	pthread_mutex_t	status_mutex;
 } t_table;
 
 
 int			ft_atoi(const char *str);
 int			init_philosophers(t_table *table);
+int			init_table(t_table *table, int size, char **args);
 int			is_all_num(char *str);
 void		ft_wait(int	ms);
 void		print_action(t_table *table, int index, int action);
-void		checker(t_table *table);
+void		start_checker(t_table *table);
+void		start_simulation(t_table *table);
+void		end_simulation(t_table *table);
 void		*philos_schedule(void *ptr);
+void		destroy_table(t_table *table);
+void		destroy_philos(t_philosopher *philos, int size);
+long long	fetch_data(pthread_mutex_t *mutex, void	*addr);
 t_timestamp	get_timestamp();
 
 #endif

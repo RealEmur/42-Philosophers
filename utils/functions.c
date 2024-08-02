@@ -6,7 +6,7 @@
 /*   By: emyildir <emyildir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:11:09 by emyildir          #+#    #+#             */
-/*   Updated: 2024/07/30 11:34:08 by emyildir         ###   ########.fr       */
+/*   Updated: 2024/08/02 20:25:32 by emyildir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,18 @@ t_timestamp	get_timestamp()
 	if (gettimeofday(&time, NULL) == -1)
 		return (0);
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+
+long long	fetch_data(pthread_mutex_t *mutex, void	*addr)
+{
+	long long	data;
+
+	if(!pthread_mutex_lock(mutex))
+	{
+		data = *((long long *) addr);
+		return (pthread_mutex_unlock(mutex), data);
+	}
+	return (0);
 }
 
 void	ft_wait(int	ms)

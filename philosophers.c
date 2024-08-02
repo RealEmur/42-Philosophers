@@ -6,7 +6,7 @@
 /*   By: emyildir <emyildir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:51:08 by emyildir          #+#    #+#             */
-/*   Updated: 2024/07/30 15:44:11 by emyildir         ###   ########.fr       */
+/*   Updated: 2024/08/02 20:33:45 by emyildir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,14 @@ int		main(int size, char **args)
 
 	if (!check_args(size, args))
 		return (1);
-	table->philos_count = ft_atoi(args[1]);
-	table->die_time = ft_atoi(args[2]);
-	table->eat_time = ft_atoi(args[3]);
-	table->sleep_time = ft_atoi(args[4]);
-	table->must_eat = -1;
-	if (size == 6)
-		table->must_eat = ft_atoi(args[5]);
-	table->anyone_dead = 0;
-	table->sim_started_at = get_timestamp();
-	if(pthread_mutex_init(&(table->anyone_dead_mutex), NULL))
-		return (printf(MSG_TABLE_MUTEX), 1);
+	if (!init_table(table, size, args))
+		printf(MSG_TABLE_MUTEX);
 	if (!init_philosophers(table))
 		return (printf(MSG_PHILO_INIT_ERR), 1);
-	checker(table);
-	//wait_threads(table->philos, table->philos_count);
+	start_simulation(table);
+	start_checker(table);
+	wait_threads(table->philos, table->philos_count);
+	destroy_philos(table->philos, table->philos_count);
+	destroy_table(table);
 	return (0);
 }
-

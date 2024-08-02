@@ -6,7 +6,7 @@
 /*   By: emyildir <emyildir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 10:26:54 by emyildir          #+#    #+#             */
-/*   Updated: 2024/07/30 17:38:21 by emyildir         ###   ########.fr       */
+/*   Updated: 2024/08/02 20:12:53 by emyildir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,11 @@ void	print_action(t_table *table, int index, int action)
 	char	*const actions[] = \
 	{"is sleeping", "is eating", "is thinking", "has taken a fork", "died"};
 	unsigned long long	timestamp;
+	int					status;
 
-	pthread_mutex_lock(&table->anyone_dead_mutex);
-	if (table->anyone_dead)
-	{
-		pthread_mutex_unlock(&table->anyone_dead_mutex);
+	status = fetch_data(&table->status_mutex, &table->status);
+	if (status == STATUS_ENDED)
 		return ;
-	}
-	pthread_mutex_unlock(&table->anyone_dead_mutex);
 	timestamp = get_timestamp();
 	printf("%lld %d %s.\n", timestamp - table->sim_started_at, index + 1, actions[action]);
 }
@@ -32,10 +29,12 @@ void	print_action(t_table *table, int index, int action)
 
 void	destroy_philo(t_philosopher *philo)
 {
-	//if (philo->fork)
+	if (pthread_mutex_lock(&philo->fork) != 22)
 		pthread_mutex_destroy(&philo->fork);
-	//if (philo->last_eaten)
+	if (pthread_mutex_lock(&philo->die_at_mutex) != 22)
 		pthread_mutex_destroy(&philo->die_at_mutex);
+	if (pthread_mutex_lock(&philo->times_eaten_mutex) != 22)
+		pthread_mutex_destroy(&philo->times_eaten_mutex);
 }
 
 void	destroy_philos(t_philosopher *philos, int size)
@@ -49,11 +48,10 @@ int	init_philo(t_table *table, t_philosopher *philo, int index)
 	philo->index = index;
 	philo->table = table;
 	philo->die_at = get_timestamp() + table->die_time;
-	
 	if (pthread_mutex_init(&philo->fork, NULL) 
 	|| pthread_mutex_init(&philo->die_at_mutex, NULL)
+	|| pthread_mutex_init(&philo->times_eaten_mutex, NULL)
 	|| pthread_create(&philo->thread, NULL, philos_schedule, philo)
-	|| pthread_detach(philo->thread)
 	)
 		return (destroy_philo(philo), 0);
 	return (1);
