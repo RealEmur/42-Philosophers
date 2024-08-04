@@ -6,13 +6,13 @@
 /*   By: emyildir <emyildir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:11:09 by emyildir          #+#    #+#             */
-/*   Updated: 2024/08/02 20:25:32 by emyildir         ###   ########.fr       */
+/*   Updated: 2024/08/04 12:56:13 by emyildir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
 
-t_timestamp	get_timestamp()
+t_timestamp	get_timestamp(void)
 {
 	t_timeval	time;
 
@@ -21,36 +21,38 @@ t_timestamp	get_timestamp()
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-long long	fetch_data(pthread_mutex_t *mutex, void	*addr)
+long long	m_fetch(pthread_mutex_t *mutex, void	*addr)
 {
 	long long	data;
 
-	if(!pthread_mutex_lock(mutex))
+	if (!pthread_mutex_lock(mutex))
 	{
-		data = *((long long *) addr);
+		data = *(long long *)addr;
 		return (pthread_mutex_unlock(mutex), data);
 	}
 	return (0);
 }
 
-void	ft_wait(int	ms)
+int	m_set(pthread_mutex_t *mutex, void *addr, \
+long long data, int size)
 {
-	t_timestamp const target_ms \
-	= get_timestamp() + ms;
-	
-	while (target_ms > get_timestamp())
-		usleep(200);
+	if (!pthread_mutex_lock(mutex))
+	{
+		if (size == SIZE_64BIT)
+			*(unsigned long long *)addr = data;
+		else if (size == SIZE_32BIT)
+			*(int *)addr = data;
+		return (pthread_mutex_unlock(mutex), 1);
+	}
+	return (0);
 }
 
-int	is_all_num(char *str)
+void	ft_wait(int ms)
 {
-	while (str && *str)
-	{
-		if (!(*str >= '0' && *str <= '9'))
-			return (0);
-		str++;
-	}
-	return (1);
+	t_timestamp const	target_ms = get_timestamp() + ms;
+
+	while (target_ms > get_timestamp())
+		usleep(200);
 }
 
 int	ft_atoi(const char *str)

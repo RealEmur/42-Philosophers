@@ -6,7 +6,7 @@ HEADER = philosophers.h
 DATARACE = -fsanitize=thread
 
 CC = cc 
-CFLAGS = -pthread
+CFLAGS = -Wall -Wextra -Werror -pthread 
  
 all: $(NAME)
 
