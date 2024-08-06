@@ -6,7 +6,7 @@
 /*   By: emyildir <emyildir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 10:26:54 by emyildir          #+#    #+#             */
-/*   Updated: 2024/08/04 11:51:40 by emyildir         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:25:01 by emyildir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,9 @@ int	init_philosophers(t_table *table)
 		return (printf(MSG_MALLOC_ERR), 1);
 	memset(philosophers, 0, table->philos_count * sizeof(t_philosopher));
 	table->philos = philosophers;
-	i = 0;
-	while (i < table->philos_count)
-	{
+	i = -1;
+	while (++i < table->philos_count)
 		if (!init_philo(table, philosophers + i, i))
 			return (destroy_philos(philosophers, i + 1), 1);
-		i++;
-	}
 	return (1);
 }

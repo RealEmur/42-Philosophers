@@ -6,20 +6,11 @@
 /*   By: emyildir <emyildir@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:11:09 by emyildir          #+#    #+#             */
-/*   Updated: 2024/08/04 12:56:13 by emyildir         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:47:10 by emyildir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosophers.h"
-
-t_timestamp	get_timestamp(void)
-{
-	t_timeval	time;
-
-	if (gettimeofday(&time, NULL) == -1)
-		return (0);
-	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
-}
 
 long long	m_fetch(pthread_mutex_t *mutex, void	*addr)
 {
@@ -45,6 +36,15 @@ long long data, int size)
 		return (pthread_mutex_unlock(mutex), 1);
 	}
 	return (0);
+}
+
+t_timestamp	get_timestamp(void)
+{
+	t_timeval	time;
+
+	if (gettimeofday(&time, NULL) == -1)
+		return (0);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
 void	ft_wait(int ms)
