@@ -28,8 +28,6 @@ void	*must_eat_checker(void *ptr)
 int		start_checker(t_table *table)
 {
 	pthread_t	must_eat_thread;
-	pthread_t	die_thread;
-	int			end_flag;
 	
 	if (table->must_eat != -1)
 	{

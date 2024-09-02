@@ -16,7 +16,7 @@ int	is_dead(t_table *table, t_philosopher *philo)
 {
 	const t_timestamp	current_ts = get_timestamp();
 
-	return ((philo->die_at == 0 && current_ts - table->sim_started_at > table->die_time)
+	return ((philo->die_at == 0 && current_ts - table->sim_started_at > (t_timestamp) table->die_time)
 	|| (philo->die_at != 0 && philo->die_at < current_ts));
 }
 
@@ -26,7 +26,6 @@ void	*checker(void	*ptr)
 	t_philosopher *const	philo = ptr;
 	t_table *const			table = philo->table;
 	int						eaten_enough;
-	int						i;
 	
 	eaten_enough = table->must_eat == -1;
 	while (1)
@@ -53,7 +52,6 @@ void	philos_schedule(t_table *table, t_philosopher *philo)
 	sem_t		*const	sem_forks = table->sem_forks;
 	pthread_t	thread;
 	
-	philo->sem_eat = init_semaphore()
 	pthread_create(&thread, NULL, checker, philo);
 	pthread_detach(thread);
 	while (1)
