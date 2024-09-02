@@ -44,27 +44,25 @@ void	ft_wait(int ms)
 		usleep(200);
 }
 
-char	*str_append(char *str, char *to_add)
-{
-	int		str_len;
-	int		len;
-	char	*newstr;
 
-	len = -1;
-	while (str[++len])
-		;
-	str_len = len;
-	while (to_add[len - str_len])
-		len++;
-	newstr = malloc(sizeof(char) * (len + 1));
-	if (!newstr)
-		return NULL;
-	memset(newstr, 0, len + 1);
-	while (len--)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
-	
-}
+
+
 
 int	ft_atoi(const char *str)
 {
