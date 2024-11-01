@@ -5,7 +5,7 @@ helpers/checker_bonus.c utils/semaphores_bonus.c
 HEADER = philosophers_bonus.h
 
 CC = cc 
-CFLAGS = -Wall -Wextra -Werror -pthread -lpthread
+CFLAGS = -Wall -Wextra -Werror -pthread -lpthread 
  
 all: $(NAME)
 

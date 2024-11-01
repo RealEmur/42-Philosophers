@@ -4,10 +4,8 @@ SOURCES = philosophers.c utils/functions.c helpers/philosophers.c helpers/checke
 HEADER = philosophers.h
 MAKEFILE = Makefile
 
-DATARACE = -fsanitize=thread 
-
 CC = cc 
-CFLAGS = -Wall -Wextra -Werror -pthread 
+CFLAGS = -Wall -Wextra -Werror -pthread
 
 all: $(NAME)
 
