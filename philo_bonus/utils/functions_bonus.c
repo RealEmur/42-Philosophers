@@ -21,7 +21,7 @@ void	exit_safe(t_table *table)
 	while (++i < table->philos_count)
 		kill(philos[i].pid, SIGKILL);
 	while (--i >= 0)
-		waitpid(philos[i].pid, 0 ,0);
+		waitpid(philos[i].pid, 0, 0);
 	destroy_philos(table->philos, table->philos_count);
 	destroy_table(table);
 	exit(EXIT_SUCCESS);
@@ -43,26 +43,6 @@ void	ft_wait(int ms)
 	while (target_ms > get_timestamp())
 		usleep(200);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-	
-
-
 
 int	ft_atoi(const char *str)
 {

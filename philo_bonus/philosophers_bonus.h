@@ -85,7 +85,6 @@ typedef struct s_table
 	t_philosopher	*philos;
 }	t_table;
 
-
 int			ft_atoi(const char *str);
 int			init_philosophers(t_table *table);
 int			init_table(t_table *table, int size, char **args);

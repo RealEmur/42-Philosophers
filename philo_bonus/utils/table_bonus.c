@@ -46,8 +46,8 @@ int	init_table(t_table *table, int size, char **args)
 	table->sem_print = init_semaphore(SEM_PRINT_NAME, 1);
 	table->sem_eat = init_semaphore(SEM_EAT_NAME, 0);
 	table->sem_die_at = init_semaphore(SEM_DIE_AT, 1);
-	if (!table->sem_forks || !table->sem_checker || !table->sem_print 
-	|| !table->sem_eat || !table->sem_die_at)
+	if (!table->sem_forks || !table->sem_checker || !table->sem_print
+		|| !table->sem_eat || !table->sem_die_at)
 		return (destroy_table(table), 0);
 	table->sim_started_at = get_timestamp();
 	return (1);

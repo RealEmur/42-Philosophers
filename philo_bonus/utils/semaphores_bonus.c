@@ -31,11 +31,11 @@ int	destroy_semaphore(sem_t *sem, char *name)
 	int		res;
 
 	if (!sem)
-		return 0;
+		return (0);
 	res = 1;
 	if (sem_close(sem) == -1)
 		res = 0;
 	if (sem_unlink(name) == -1)
 		res = 0;
-	return (res);	
+	return (res);
 }
