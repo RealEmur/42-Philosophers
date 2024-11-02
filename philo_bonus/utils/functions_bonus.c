@@ -12,7 +12,7 @@
 
 #include "../philosophers_bonus.h"
 
-void	exit_safe(t_table *table)
+void	clean_all(t_table *table)
 {
 	int						i;
 	t_philosopher *const	philos = table->philos;
@@ -24,7 +24,6 @@ void	exit_safe(t_table *table)
 		waitpid(philos[i].pid, 0, 0);
 	destroy_philos(table->philos, table->philos_count);
 	destroy_table(table);
-	exit(EXIT_SUCCESS);
 }
 
 t_timestamp	get_timestamp(void)

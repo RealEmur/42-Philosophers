@@ -20,11 +20,12 @@ void	*must_eat_checker(void *ptr)
 	count = table->philos_count;
 	while (count-- > 0)
 		sem_wait(table->sem_eat);
-	exit(0);
-	return (0);
+	clean_all(ptr);
+	exit(EXIT_SUCCESS);
+	return (NULL);
 }
 
-int	start_checker(t_table *table)
+void	start_checker(t_table *table)
 {
 	pthread_t	must_eat_thread;
 
@@ -34,5 +35,6 @@ int	start_checker(t_table *table)
 		pthread_detach(must_eat_thread);
 	}
 	sem_wait(table->sem_checker);
-	exit(0);
+	clean_all(table);
+	exit(EXIT_SUCCESS);
 }

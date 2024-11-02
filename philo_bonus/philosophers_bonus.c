@@ -62,8 +62,7 @@ int	main(int size, char **args)
 		if (checker_pid == 0)
 			start_checker(table);
 		waitpid(checker_pid, 0, 0);
-		exit_safe(table);
 	}
-	destroy_table(table);
+	clean_all(table);
 	return (0);
 }

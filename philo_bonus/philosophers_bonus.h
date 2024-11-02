@@ -93,9 +93,9 @@ int			m_set(pthread_mutex_t *mutex, void *addr, \
 long long data, int size);
 sem_t		*init_semaphore(char *name, unsigned int value);
 int			destroy_semaphore(sem_t *sem, char *name);
-int			start_checker(t_table *table);
 void		ft_wait(int ms);
-void		exit_safe(t_table *table);
+void		clean_all(t_table *table);
+void		start_checker(t_table *table);
 void		print_action(t_table *table, int index, int action);
 void		destroy_table(t_table *table);
 void		destroy_philos(t_philosopher *philos, int size);
